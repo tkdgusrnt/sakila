@@ -9,19 +9,18 @@ import vo.*;
 public class InventoryDao {
 	// StaffList
 	public ArrayList<InventoryAndStoreAndFilm> SelectInventory(String searchWord) throws Exception {
-		
+
 		System.out.println(searchWord + " <--searchWord");
-		
+
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-		
-		String sql =
-		"SELECT i.*, st.*, f.* FROM inventory i INNER JOIN store st INNER JOIN film f ON i.film_id = f.film_id AND i.store_id = st.store_id "
-		+ "WHERE f.title like ? ORDER BY i.inventory_id";
 
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setString(1, "%"+ searchWord +"%");
-		
+		String sql = "SELECT i.*, st.*, f.* FROM inventory i INNER JOIN store st INNER JOIN film f ON i.film_id = f.film_id AND i.store_id = st.store_id "
+				+ "WHERE f.title like ? ORDER BY i.inventory_id";
+
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, "%" + searchWord + "%");
+
 		ResultSet rs = stmt.executeQuery();
 		ArrayList<InventoryAndStoreAndFilm> list = new ArrayList<InventoryAndStoreAndFilm>();
 		while (rs.next()) {
@@ -64,6 +63,7 @@ public class InventoryDao {
 		}
 		return list;
 	}
+
 	// insertInventoryAction
 	public void insertInventory(Inventory i) throws Exception {
 		System.out.println("InventoryDao.insertInventory()");
