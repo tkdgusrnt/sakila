@@ -64,4 +64,19 @@ public class InventoryDao {
 		}
 		return list;
 	}
+	// insertInventoryAction
+	public void insertInventory(Inventory i) throws Exception {
+		System.out.println("InventoryDao.insertInventory()");
+		System.out.println(i.getFilmId() + " <-- i.getFilmId");
+		System.out.println(i.getStoreId() + " <-- i.getStoreId");
+
+		String sql = "INSERT INTO inventory(film_id, store_id, last_update) VALUES(?, ?, now())";
+
+		DBUtil dbutil = new DBUtil();
+		Connection conn = dbutil.getConnection();
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, i.getFilmId());
+		stmt.setInt(2, i.getStoreId());
+		stmt.executeUpdate();
+	}
 }
